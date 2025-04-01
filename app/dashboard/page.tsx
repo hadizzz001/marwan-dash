@@ -157,10 +157,8 @@ export default function ProductTable() {
           <tr className="bg-gray-100">
             <th className="border p-2">Title</th>
             <th className="border p-2">Pic</th>
-            <th className="border p-2">Price (USD)</th> 
-            <th className="border p-2">Brand</th> 
-            <th className="border p-2">Category</th>
-            <th className="border p-2">New Arrival</th>
+            <th className="border p-2">Price (USD)</th>  
+            <th className="border p-2">Category</th> 
             <th className="border p-2">Actions</th>
           </tr>
         </thead>
@@ -169,12 +167,10 @@ export default function ProductTable() {
             <tr key={product.id} className="hover:bg-gray-50">
               <td className="border p-2">{product.title}</td>
               <td className="border p-2">
-                <img src={`api/proxy?url=${product.img[0]}`} alt="Product Image" className="w-24 h-auto" />
+                <img src={`${product.img[0]}`} alt="Product Image" className="w-24 h-auto" />
               </td>
-              <td className="border p-2">{product.price}</td> 
-              <td className="border p-2">{product.brand}</td> 
-              <td className="border p-2">{product.category}</td>
-              <td className="border p-2">{product.arrival}</td>
+              <td className="border p-2">{product.price}</td>  
+              <td className="border p-2">{product.category}</td> 
               <td className="border p-2">
                 <button
                   onClick={() => handleEdit(product)}
@@ -202,24 +198,18 @@ function EditProductForm({ product, onCancel, onSave }) {
   const [price, setPrice] = useState(product.price);
   const [img, setImg] = useState(product.img || []);
   const [description, setDescription] = useState(product.description); 
-  const [categories, setCategories] = useState([]);
-  const [brands, setBrands] = useState([]);  
-  const [selectedCategory, setSelectedCategory] = useState(product.category || "");
-  const [selectedBrand, setSelectedBrand] = useState(product.brand || "");  
-  const [isEditingCategory, setIsEditingCategory] = useState(false);
-  const [isEditingBrand, setIsEditingBrand] = useState(false); 
-  const [arrival, setArrival] = useState(product.arrival === 'yes');
+  const [categories, setCategories] = useState([]); 
+  const [selectedCategory, setSelectedCategory] = useState(product.category || ""); 
+  const [isEditingCategory, setIsEditingCategory] = useState(false); 
  
   useEffect(() => {
     const fetchOptions = async () => {
       try {
-        const [categoriesRes, brandsRes] = await Promise.all([
-          fetch("/api/category"),
-          fetch("/api/brand"), 
+        const [categoriesRes] = await Promise.all([
+          fetch("/api/category")
         ]);
 
-        setCategories(await categoriesRes.json());
-        setBrands(await brandsRes.json()); 
+        setCategories(await categoriesRes.json()); 
       } catch (error) {
         console.error("Error fetching options:", error);
       }
@@ -237,9 +227,7 @@ function EditProductForm({ product, onCancel, onSave }) {
       description,
       img,
       price,
-      category: selectedCategory,
-      brand: selectedBrand, 
-      arrival: arrival ? 'yes' : 'no',
+      category: selectedCategory, 
     });
   };
 
@@ -301,36 +289,7 @@ function EditProductForm({ product, onCancel, onSave }) {
         )}
       </div>
 
-      {/* Brand Input/Select */}
-      <div className="mb-4">
-        <label htmlFor="brand" className="block text-sm font-medium text-gray-700">
-          Brand
-        </label>
-        {isEditingBrand ? (
-          <select
-            id="brand"
-            value={selectedBrand}
-            onChange={(e) => setSelectedBrand(e.target.value)}
-            onBlur={() => setIsEditingBrand(false)}
-            className="w-full border p-2"
-          >
-            <option value="">Select Brand</option>
-            {brands.map((brand) => (
-              <option key={brand.id} value={brand.name}>
-                {brand.name}
-              </option>
-            ))}
-          </select>
-        ) : (
-          <input
-            type="text"
-            value={selectedBrand}
-            onClick={() => setIsEditingBrand(true)}
-            readOnly
-            className="w-full border p-2 cursor-pointer"
-          />
-        )}
-      </div>
+ 
  
         <label htmlFor="price" className="block text-sm font-medium text-gray-700">
           Price
@@ -354,15 +313,7 @@ function EditProductForm({ product, onCancel, onSave }) {
         placeholder="Write your product description here..."
       />
 
-
-<div className="mb-4">
-        <input
-          type="checkbox"
-          checked={arrival}
-          onChange={(e) => setArrival(e.target.checked)}
-        />
-        <label className="ml-2 text-sm font-medium">New Arrival</label>
-      </div>
+ 
  
       <Upload onImagesUpload={handleImgChange} /> 
       {/* Buttons */}

@@ -43,15 +43,25 @@ export default function Sidebar() {
               <a href="/category" style={{ color: "white", textDecoration: "none" }}>
                 Add Category
               </a>
-            </li>
-            {/* <li>
-              <a href="/sub" style={{ color: "white", textDecoration: "none" }}>
-                Add Subcategory
-              </a>
-            </li> */}
+            </li> 
             <li>
-              <a href="/brand" style={{ color: "white", textDecoration: "none" }}>
-                Add Brand
+              <a href="/home" style={{ color: "white", textDecoration: "none" }}>
+                Home
+              </a>
+            </li>
+            <li>
+              <a href="/art" style={{ color: "white", textDecoration: "none" }}>
+                Articles
+              </a>
+            </li>
+            <li>
+              <a href="/vid" style={{ color: "white", textDecoration: "none" }}>
+                Videos
+              </a>
+            </li>
+            <li>
+              <a href="/gallery" style={{ color: "white", textDecoration: "none" }}>
+                Gallery
               </a>
             </li>
             <li>
@@ -59,16 +69,7 @@ export default function Sidebar() {
                 Orders
               </a>
             </li>
-            <li>
-              <a href="/social" style={{ color: "white", textDecoration: "none" }}>
-                Social Media
-              </a>
-            </li>
-            {/* <li>
-              <a href="/hot" style={{ color: "white", textDecoration: "none" }}>
-                Hot sale header
-              </a>
-            </li> */}
+           
             <li>
               <a href="/" style={{ color: "white", textDecoration: "none" }}>
                 Logout

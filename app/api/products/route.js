@@ -5,13 +5,12 @@ const prisma = new PrismaClient();
 export async function POST(req) {
   try {
     const body = await req.json();
-    const {   title,
+    const {
+      title,
       description,
       price,
       img,
-      category,
-      brand,
-      arrival
+      category,  
       } = body;
 
 console.log("body are: ",body);
@@ -24,9 +23,7 @@ console.log("body are: ",body);
         description,
         price,
         img,
-        category,
-        brand,        
-        arrival
+        category,  
           
       },
     });

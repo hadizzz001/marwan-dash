@@ -10,7 +10,7 @@ export async function POST(request: Request) {
 
   const { username, password } = body;
 
-  if (username !== "admin" || password !== "abbasbaba20252025@") {
+  if (username !== "admin" || password !== "admin") {
     return NextResponse.json(
       {
         message: "Failed , please check login info and try again",

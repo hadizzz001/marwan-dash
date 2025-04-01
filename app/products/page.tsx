@@ -14,10 +14,7 @@ export default function AddProduct() {
   const [price, setPrice] = useState(''); 
   const [img, setImg] = useState(['']); 
   const [categoryOptions, setCategoryOptions] = useState([]);  
-  const [selectedCategory, setSelectedCategory] = useState('');   
-  const [brandOptions, setBrandOptions] = useState([]);  
-  const [selectedBrand, setSelectedBrand] = useState('');
-  const [isNewArrival, setIsNewArrival] = useState(false); // New Arrival State
+  const [selectedCategory, setSelectedCategory] = useState('');    
 
   // Fetch categories based on selected type
   useEffect(() => {
@@ -38,22 +35,7 @@ export default function AddProduct() {
     fetchCategories();
   }, []);
 
-  useEffect(() => {
-    async function fetchBrands() {
-      try {
-        const response = await fetch(`/api/brand`);
-        if (response.ok) {
-          const data = await response.json();
-          setBrandOptions(data);  
-        } else {
-          console.error('Failed to fetch brands');
-        }
-      } catch (error) {
-        console.error('Error fetching brands:', error);
-      }
-    }
-    fetchBrands();
-  }, []);
+ 
 
  
 
@@ -67,12 +49,10 @@ export default function AddProduct() {
 
     const payload = {
       title, 
-      description,
-      brand: selectedBrand, 
+      description, 
       price, 
       img, 
-      category: selectedCategory,
-      ...(isNewArrival && { arrival: "yes" }) // Add arrival only if checked
+      category: selectedCategory, 
     };
 
     const response = await fetch('/api/products', {
@@ -107,21 +87,7 @@ export default function AddProduct() {
         required
       /> 
 
-      {/* Brand Dropdown */}
-      <label className="block text-lg font-bold mb-2">Brand</label>
-      <select
-        value={selectedBrand}
-        onChange={(e) => setSelectedBrand(e.target.value)}
-        className="w-full border p-2 mb-4"
-        required
-      >
-        <option value="" disabled>Select a Brand</option>
-        {brandOptions.map((category) => (
-          <option key={category.id} value={category.name}>
-            {category.name}
-          </option>
-        ))}
-      </select>
+ 
 
       <label className="block text-lg font-bold mb-2">Category</label>
       <select
@@ -161,17 +127,7 @@ export default function AddProduct() {
 
       <Upload onImagesUpload={handleImgChange} /> 
 
-      {/* New Arrival Checkbox */}
-      <div className="flex items-center my-4">
-        <input
-          type="checkbox"
-          id="newArrival"
-          checked={isNewArrival}
-          onChange={(e) => setIsNewArrival(e.target.checked)}
-          className="mr-2"
-        />
-        <label htmlFor="newArrival" className="text-lg font-bold">New Arrival</label>
-      </div>
+ 
 
       <button type="submit" className="bg-green-500 text-white px-4 py-2">
         Save Product

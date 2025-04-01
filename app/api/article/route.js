@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 export async function GET(req) {
   try {
-    const categories = await prisma.subcategory.findMany();
+    const categories = await prisma.article.findMany();
     return new Response(JSON.stringify(categories), { status: 200 });
   } catch (error) {
     console.error('Error fetching categories:', error);
@@ -14,9 +14,10 @@ export async function GET(req) {
 
 export async function POST(req) {
   try {
-    const { name , category } = await req.json(); 
-    const category1 = await prisma.subcategory.create({ data: { name , category } });
-    return new Response(JSON.stringify({ message: 'Category created successfully', category1 }), {
+    const { title, desc, img  } = await req.json(); 
+    
+    const category = await prisma.article.create({ data: { title, desc, img } });
+    return new Response(JSON.stringify({ message: 'Category created successfully', category }), {
       status: 201,
     });
   } catch (error) {
@@ -33,12 +34,12 @@ export async function PATCH(req) {
     const id = url.searchParams.get('id');
     if (!id) return new Response(JSON.stringify({ error: 'ID is required' }), { status: 400 });
  
-    const { name , category} = await req.json(); 
+    const { title, desc, img  } = await req.json(); 
 
 
-    const updatedCategory = await prisma.subcategory.update({
+    const updatedCategory = await prisma.article.update({
       where: { id },
-      data: { name , category },
+      data: { title, desc, img  },
     });
     return new Response(JSON.stringify({ message: 'Category updated successfully', updatedCategory }), {
       status: 200,
@@ -55,7 +56,7 @@ export async function DELETE(req) {
     const id = url.searchParams.get('id');
     if (!id) return new Response(JSON.stringify({ error: 'ID is required' }), { status: 400 });
 
-    const deletedCategory = await prisma.subcategory.delete({ where: { id } });
+    const deletedCategory = await prisma.article.delete({ where: { id } });
     return new Response(JSON.stringify({ message: 'Category deleted successfully', deletedCategory }), {
       status: 200,
     });

@@ -1,17 +1,15 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import Upload from '../components/Upload';
+import { useState, useEffect } from 'react'; 
 import { redirect, useRouter } from 'next/navigation';
 
 const ManageCategory = () => {
-  const [formData, setFormData] = useState({ name: '' , img: [] });
-  const [editFormData, setEditFormData] = useState({ id: '', name: '', img: [] });
+  const [formData, setFormData] = useState({ name: ''  });
+  const [editFormData, setEditFormData] = useState({ id: '', name: '' });
   const [message, setMessage] = useState('');
-  const [categories, setCategories] = useState([]);
-  const [img, setImg] = useState([]); // Store images in an array
+  const [categories, setCategories] = useState([]); 
   const [editMode, setEditMode] = useState(false);
-  const router = useRouter();
+ 
   // Fetch all categories
   const fetchCategories = async () => {
     try {
@@ -43,7 +41,7 @@ const ManageCategory = () => {
 
     if (res.ok) {
       setMessage('category added successfully!');
-      setFormData({ name: '',  img: [] });
+      setFormData({ name: ''  });
       fetchCategories();
       window.location.href = '/category';
       
@@ -58,10 +56,8 @@ const ManageCategory = () => {
     setEditMode(true);
     setEditFormData({
       id: category.id,
-      name: category.name, 
-      img: category.img,
-    });
-    setImg(category.img); // Populate img state with existing images for editing
+      name: category.name,  
+    }); 
   };
 
   const handleEditSubmit = async (e) => {
@@ -72,14 +68,13 @@ const ManageCategory = () => {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name: editFormData.name, 
-          img: img, // Ensure the updated image state is sent
+          name: editFormData.name,  
         }),
       });
 
       if (res.ok) {
         window.location.reload(); 
-        setEditFormData({ id: '', name: '' , img: [] });
+        setEditFormData({ id: '', name: ''  });
         setEditMode(false);
         fetchCategories();
         
@@ -116,17 +111,7 @@ const ManageCategory = () => {
     }
   };
 
-  const handleImgChange = (url) => {
-    if (url) {
-      setImg(url); // Update img state with new image URL
-    }
-  };
-
-  useEffect(() => {
-    if (!img.includes('')) {
-      setFormData((prevState) => ({ ...prevState, img }));
-    }
-  }, [img]);
+  
 
   return (
     <div className="container mx-auto p-4">
@@ -147,7 +132,7 @@ const ManageCategory = () => {
           />
         </div>
        
-        <Upload onImagesUpload={handleImgChange} />
+       
         <button type="submit" className="bg-blue-500 text-white px-4 py-2">
           {editMode ? 'Update Category' : 'Add category'}
         </button>
@@ -159,7 +144,6 @@ const ManageCategory = () => {
         <thead>
           <tr>
             <th className="border border-gray-300 p-2">Name</th>
-            <th className="border border-gray-300 p-2">Image</th>
             <th className="border border-gray-300 p-2">Actions</th>
           </tr>
         </thead>
@@ -168,7 +152,6 @@ const ManageCategory = () => {
             categories.map((category) => (
               <tr key={category.id}>
                 <td className="border border-gray-300 p-2">{category.name}</td>
-                <td className="border border-gray-300 p-2"><img src={`api/proxy?url=${category.img[0]}`}  alt="Product Image" className="w-24 h-auto" /></td>
                 <td className="border border-gray-300 p-2 text-center">
                   <button
                     onClick={() => handleEdit(category)}
