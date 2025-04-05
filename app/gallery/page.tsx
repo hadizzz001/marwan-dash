@@ -110,8 +110,7 @@ const ManageArticles = () => {
       <h2 className="text-xl font-bold mt-8">All Pics</h2>
       <table className="table-auto border-collapse border border-gray-300 w-full mt-4">
         <thead>
-          <tr> 
-            <th className="border border-gray-300 p-2">Images</th>
+          <tr>  
             <th className="border border-gray-300 p-2">Type</th>
             <th className="border border-gray-300 p-2">Actions</th>
           </tr>
@@ -120,13 +119,7 @@ const ManageArticles = () => {
           {articles.length > 0 ? (
             articles.map((article) => (
               <tr key={article.id}> 
-                <td className="border border-gray-300 p-2">
-                  <div className="flex space-x-2">
-                    {article.img.map((imgUrl, index) => (
-                      <img key={index} src={imgUrl} alt="Article Image" className="w-16 h-16 object-cover border" />
-                    ))}
-                  </div>
-                </td>
+                
                 <td className="border border-gray-300 p-2 text-center">{article.type}</td>
                 <td className="border border-gray-300 p-2 text-center">
                   <button
