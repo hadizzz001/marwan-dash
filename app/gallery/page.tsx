@@ -95,8 +95,7 @@ const ManageArticles = () => {
             >
               <option value="">Select Type</option>
               <option value="Children and youth">Children and youth</option>
-              <option value="Corporation Training">Corporation Training</option>
-              <option value="E-Government Training">E-Government Training</option>
+              <option value="Corporate Training">Corporate Training</option> 
             </select>
           </div>
 
