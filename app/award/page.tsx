@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Upload from '../components/Upload';
 
 const ManageArticles = () => {
-  const [editFormData, setEditFormData] = useState({ id: '', img: [], type: '' });
+  const [editFormData, setEditFormData] = useState({ id: '', img: [] });
   const [message, setMessage] = useState('');
   const [articles, setArticles] = useState([]);
   const [editMode, setEditMode] = useState(false);
@@ -12,12 +12,12 @@ const ManageArticles = () => {
   // Fetch all articles
   const fetchArticles = async () => {
     try {
-      const res = await fetch('/api/gallery', { method: 'GET' });
+      const res = await fetch('/api/award', { method: 'GET' });
       if (res.ok) {
         const data = await res.json();
         setArticles(data);
       } else {
-        console.error('Failed to fetch articles');
+        console.error('Failed to fetch');
       }
     } catch (error) {
       console.error('Error:', error);
@@ -33,19 +33,13 @@ const ManageArticles = () => {
     setEditFormData((prev) => ({ ...prev, img: uploadedImages }));
   };
 
-  // Handle type selection
-  const handleTypeChange = (e) => {
-    const newType = e.target.value;
-    setEditFormData((prev) => ({ ...prev, type: newType }));
-  };
-
+ 
   // Edit article
   const handleEdit = (article) => {
     setEditMode(true);
     setEditFormData({
       id: article.id,
-      img: article.img,
-      type: article.type || '', // Handle cases where type might be missing
+      img: article.img, 
     });
   };
 
@@ -53,17 +47,17 @@ const ManageArticles = () => {
     e.preventDefault();
 
     try {
-      const res = await fetch(`/api/gallery?id=${encodeURIComponent(editFormData.id)}`, {
+      const res = await fetch(`/api/award?id=${encodeURIComponent(editFormData.id)}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ img: editFormData.img, type: editFormData.type }),
+        body: JSON.stringify({ img: editFormData.img }),
       });
 
       if (res.ok) {
-        setEditFormData({ id: '', img: [], type: '' });
+        setEditFormData({ id: '', img: [] });
         setEditMode(false);
         fetchArticles();
-        window.location.href = "/gallery";
+        window.location.href = "/award";
       } else {
         const errorData = await res.json();
         setMessage(`Error: ${errorData.error}`);
@@ -84,20 +78,7 @@ const ManageArticles = () => {
             <Upload onImagesUpload={handleImgChange} />
           </div>
 
-          {/* Image Type Dropdown */}
-          <div>
-            <label className="block font-medium mb-1">Select Image Type:</label>
-            <select
-              value={editFormData.type}
-              onChange={handleTypeChange}
-              className="border p-2 w-full"
-              required
-            >
-              <option value="">Select Type</option>
-              <option value="Children and youth">Children and youth</option>
-              <option value="Corporate Training">Corporate Training</option>
-            </select>
-          </div>
+      
 
           <button type="submit" className="bg-blue-500 text-white px-4 py-2">
             Update Pics
@@ -107,11 +88,10 @@ const ManageArticles = () => {
 
       {message && <p className="mt-4">{message}</p>}
 
-      <h2 className="text-xl font-bold mt-8">All Pics</h2>
+      <h2 className="text-xl font-bold mt-8">International Award</h2>
       <table className="table-auto border-collapse border border-gray-300 w-full mt-4">
         <thead>
-          <tr>
-            <th className="border border-gray-300 p-2">Type</th>
+          <tr> 
             <th className="border border-gray-300 p-2">Actions</th>
           </tr>
         </thead>
@@ -119,8 +99,7 @@ const ManageArticles = () => {
           {articles.length > 0 ? (
             articles.map((article) => (
               <tr key={article.id}>
-
-                <td className="border border-gray-300 p-2 text-center">{article.type}</td>
+ 
                 <td className="border border-gray-300 p-2 text-center">
                   <button
                     onClick={() => handleEdit(article)}

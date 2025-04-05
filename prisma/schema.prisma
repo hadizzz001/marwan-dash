@@ -41,6 +41,11 @@ model Video {
   img  String[]
 }
 
+model Award {
+  id   String   @id @default(auto()) @map("_id") @db.ObjectId 
+  img  String[]
+}
+
 model Gallery {
   id   String   @id @default(auto()) @map("_id") @db.ObjectId 
   img  String[]

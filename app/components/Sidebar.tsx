@@ -50,6 +50,11 @@ export default function Sidebar() {
               </a>
             </li>
             <li>
+              <a href="/award" style={{ color: "white", textDecoration: "none" }}>
+                International award
+              </a>
+            </li>
+            <li>
               <a href="/art" style={{ color: "white", textDecoration: "none" }}>
                 Articles
               </a>
